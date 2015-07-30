@@ -1,0 +1,116 @@
+
+ enum LinkType 
+ {
+	Inh,
+	Sim,
+	Imp,
+	Equ,
+	PreImp,
+	RetImp,
+	ConImp,
+	ConEqu,
+	PreEqu 
+ }
+
+ struct GraphTruth
+ {
+	float F;
+	float C;
+ }
+
+enum GraphTense
+{
+	Eternal,
+	Past,
+	Present,
+	Future	
+}
+
+enum GraphOrigin
+{
+	User,
+	Derived,
+	ParentModule,
+	PeerModule,
+	ChildModule	
+}
+	
+ struct GraphStamp
+ {
+	long Created;
+	GraphTense Occurs;
+	int SC;
+	GraphOrigin Origin;
+	List<ulong> Trail;
+ }
+
+ struct GraphLink
+ {
+	LinkType LinkType;
+	GraphTruth TV;
+	long Target;
+	GraphStamp Stamp;
+ }
+
+ cell struct GraphConcept
+ {
+	long TermId;
+	float Activation;
+	long LastActivated;
+	long LastUpdated;
+	List<long> Beliefs;
+ }
+
+struct SpikeMessage
+{
+	float spike;
+	long target;	
+}
+
+protocol Spike
+{
+	Type: Asyn;
+	Request: SpikeMessage;
+	Response: void;	
+}
+
+struct InferenceMessage
+{
+	long taskId;
+	long cellId;
+}
+
+protocol Inference
+{
+	Type: Asyn;
+	Request: InferenceMessage;	
+	Response: void;
+}
+
+struct TaskMessage
+{
+	long taskId;	
+	long target;
+}
+
+protocol TaskRouting
+{
+	Type: Asyn;
+	Request: TaskMessage;
+	Response: void;	
+}
+
+server SpikeServer
+{
+	protocol Spike;	
+}
+
+server TaskServer
+{
+	protocol TaskRouting;	
+}
+
+server InferenceServer
+{
+	protocol Inference;	
+}
