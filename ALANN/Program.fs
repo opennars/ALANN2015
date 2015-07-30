@@ -115,13 +115,10 @@ let main argv =
         let sc = belief.Stamp.SC
         let c = belief.J.TV.C
 
-        // update retention value
-        belief.Stamp.Retention <- calcRetentionValue belief
-
         // if list is beyond capacity remove lowest retention value
         let beliefs = 
             if state.Beliefs |> List.length > 20 then
-                let min = state.Beliefs |> List.minBy (fun b -> b.Stamp.Retention)
+                let min = state.Beliefs |> List.minBy (fun b -> calcRetentionValue belief)
                 state.Beliefs |> remove min
             else
                 state.Beliefs
