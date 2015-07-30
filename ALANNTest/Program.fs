@@ -77,11 +77,14 @@ let main argv =
     // Function to test if 'another' concept is active
     // This is a synchronous message send which waits for a response, with a timeout
     // This is a quick and dirty approach to show the concept
-    // The function returns wether or not the target concept is active
+    // The function returns whether or not the target concept is active.
     // Because activation is a momentary moment it uses a time window
     // as a range. This is not calibrated.
     // The functions returns true if it was active within the time window
     // Timeouts are not currently handled
+    // ** There should be a way of doing this with the spikes as they will 
+    // ** have been sent to this concept if the dst had spiked.
+    // ** need to identify the intersection of the spikes with the beliefs
     let isConceptActive term =
         let ACTIVATION_WINDOW = 1000L // ticks
         let lastActivatedAsync = getConceptFromTerm term <? LastActivated
