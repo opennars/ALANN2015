@@ -68,9 +68,6 @@
             // forward inference
             | Judgement {Term = st1; TV = tv1}, {Term = st2; TV = tv2} ->
                 firstOrderInference (st1, st2, tv1, tv2)|> List.iter (fun s -> q.Enqueue(Judgement {Term = fst s; TV = snd s}))
-            // backward inference
-            | Question {Term = st1}, {Term = st2; TV = tv2} ->
-                List.iter (fun s -> q.Enqueue(Question {Term = fst s})) (firstOrderInference (st1, st2, tv2, tv2))
             | _, _ -> ()    
         with
         | _ as ex -> printfn "Exception in NAL1.syllogisticInference: %s" ex.Message
